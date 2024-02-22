@@ -1,0 +1,46 @@
+Manage Jenkins --> Manage Nodes and Clouds --> New Node
+
+Node name: jenkins-slave
+
+description: jenkins-slave agent configuration testing
+
+Number of executors: 1
+
+remote root directory: /home/ubuntu  (This is the directory in Slave agent, where Jenkins workspace data is stored
+
+Labels: jenkins-slave
+
+Usage: Use this node as much as possible
+
+Launch method: Launch agents via SSH
+
+Host: Private_ip of Jenkins-slave-ec2-instance
+Credentails: jenkins 
+Domain: Global credentials
+Kind: SSH Username with private key
+id: jenkins-slave
+Description: jenkins-slave
+Username: ubuntu
+Private key: Paste private key directly
+
+Host Key Verification Strategy: Manually trusted key verification strategy
+
+
+Availability: Keep this agent online as much as possible.
+
+Save
+
+
+Create a Jenkins job:
+
+Restrict where this project can be run: jenkins-slave
+
+Build Steps --> Execute Shell:
+hostname
+uptime
+
+
+
+
+
+
