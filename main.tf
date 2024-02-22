@@ -1,10 +1,10 @@
 provider "aws" {
-    region = "us-east-1"    #set ur desired region
+  region = "us-east-1" #set ur desired region
 }
 
 #Security Group used by Jenkins Master
 resource "aws_security_group" "mysg" {
-  name   = "jenkins-master-sg"
+  name = "jenkins-master-sg"
 
   ingress {
     description      = "http"
@@ -23,7 +23,7 @@ resource "aws_security_group" "mysg" {
     ipv6_cidr_blocks = ["::/0"]
   }
 
-   ingress {                     
+  ingress {
     description      = "Jenkins Port 8080 for Jenkins"
     from_port        = 8080
     to_port          = 8080
@@ -43,7 +43,7 @@ resource "aws_security_group" "mysg" {
 
 #Security Group used by Jenkins Slave agent
 resource "aws_security_group" "mysg2" {
-  name   = "jenkins-slave-sg"
+  name = "jenkins-slave-sg"
 
   ingress {
     description      = "http"
@@ -73,17 +73,18 @@ resource "aws_security_group" "mysg2" {
 }
 
 resource "aws_instance" "Jenkins-Master-Server" {
-    ami = "ami-0c7217cdde317cfec"    # AWS Ubuntu instance AMI ID
-    instance_type = "t2.micro"
-    vpc_security_group_ids = [aws_security_group.mysg.id]
-    user_data = base64encode(file("userdata.sh"))
-  
+  ami                    = "ami-0c7217cdde317cfec" # AWS Ubuntu instance AMI ID
+  instance_type          = "t2.micro"
+  vpc_security_group_ids = [aws_security_group.mysg.id]
+  user_data              = base64encode(file("userdata.sh"))
+
 }
 
 resource "aws_instance" "Jenkins-Slave-Server" {
-    ami = "ami-0c7217cdde317cfec"    # AWS Ubuntu instance AMI ID
-    instance_type = "t2.micro"
-    vpc_security_group_ids = [aws_security_group.mysg2.id]
-    user_data = base64encode(file("userdata1.sh"))
-  
+  ami                    = "ami-0c7217cdde317cfec" # AWS Ubuntu instance AMI ID
+  instance_type          = "t2.micro"
+  vpc_security_group_ids = [aws_security_group.mysg2.id]
+  user_data              = base64encode(file("userdata1.sh"))
+  key_name               = "Terraform-Key"
+
 }
